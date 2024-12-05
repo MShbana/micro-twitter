@@ -1,0 +1,71 @@
+services:
+  database:
+    image: postgres:16.6-alpine3.20
+    env_file:
+      - ${PWD}/server_variables.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER} || exit 1"]
+      interval: 10s
+      retries: 5
+      timeout: 10s
+  redis:
+    image: redis:7.2.6-alpine
+    environment:
+      - TZ=Africa/Cairo
+    volumes:
+      - redis_data:/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 10s       
+      timeout: 10s
+      retries: 5
+
+  celery:
+    build: .
+    environment:
+      - TZ=Africa/Cairo
+    env_file:
+      - ${PWD}/server_variables.env
+    command: "celery -A micro_twitter.config worker --loglevel=INFO"
+    volumes:
+      - .:/backend
+    healthcheck:
+      test: ["CMD-SHELL", "celery inspect ping --destination celery@$$HOSTNAME"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      - server
+      - redis
+  server:
+    build:
+      context: .
+      args:
+        - DEV=true
+    environment:
+      - TZ=Africa/Cairo
+    env_file:
+      - ${PWD}/server_variables.env
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/backend
+    ports: 
+      - 8000:8000
+    restart: always
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+      redis:
+        condition: service_healthy
+        restart: true
+
+volumes:
+  logs:
+  db_data:
+  redis_data:

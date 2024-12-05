@@ -1,0 +1,17 @@
+# https://pypi.org/project/autoflake/
+autoflake>=2.3.1,<2.4
+
+# https://pypi.org/project/flake8/
+flake8>=7.1.1,<7.2
+
+# https://pypi.org/project/isort/
+isort>=5.13.2,<5.14
+
+# https://pypi.org/project/black/
+black>=24.10.0,<24.11
+
+# https://pypi.org/project/djangorestframework-stubs/
+djangorestframework-stubs>=3.15.1,<3.16
+
+# https://pypi.org/project/coverage/
+coverage>=7.6.8,<7.7
