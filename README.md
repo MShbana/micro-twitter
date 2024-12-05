@@ -34,20 +34,24 @@ A Django-based micro social media application with Django, DRF, PostgreSQL, Redi
     `docker compose exec server python manage.py migrate`
 
 ### Creating SuperUser:
-- To create a superuser, to access the Django Admin Dashboard: `docker-compose exec server python manage.py createsuperuser`.
+- To create a superuser, to access the Django Admin Dashboard: `docker compose exec server python manage.py createsuperuser`.
 
 ### Accessing the Django Admin Dashboard:
-- You can access the dashboard through: `"http://localhost:8000/admin"`.
+- You can access the dashboard through: `http://localhost:8000/admin`.
 
 ### Running Tests:
-- To run tests:`docker-compose exec server python manage.py test`
+- To run tests:`docker compose exec server coverage run manage.py test`
 
 ### Generating a Coverage Report:
 - To create Covarege Report: `docker compose exec server coverage report -m`
 
 ### API Documentation:
-- `http://localhost:8000/api/docs/redoc/`
 - `http://localhost:8000/api/docs/swagger/`
+- `http://localhost:8000/api/docs/redoc/`
 
 ### API Testing:
 - A postman collection with the name `MicroTwitterByMohamedShabana.json` was shared via the email.
+
+### Testing email receiving:
+- If the docker compose is run in attached mode, the email will be printed to console.
+- Sent emails will appear in `logs/email.log`.
