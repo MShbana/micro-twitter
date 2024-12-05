@@ -16,7 +16,7 @@ A Django-based micro social media application with Django, DRF, PostgreSQL, Redi
     cd micro-twitter
     ```
 
-2. **In the project's root directory, copy server_variables.env.example as server_variables.env**:
+2. **In the project's root directory, copy `server_variables.env.example` as `server_variables.env`**:
 
     ```
     cp server_variables.env.example server_variables.env
@@ -34,7 +34,7 @@ A Django-based micro social media application with Django, DRF, PostgreSQL, Redi
     `docker compose exec server python manage.py migrate`
 
 ### Creating SuperUser:
-- To create a superuser, to access the Django Admin Dashboard: `docker compose exec server python manage.py createsuperuser`
+- To create a superuser: `docker compose exec server python manage.py createsuperuser`
 
 ### Accessing the Django Admin Dashboard:
 - You can access the dashboard through: `http://localhost:8000/admin`
