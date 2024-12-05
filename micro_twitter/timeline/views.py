@@ -34,8 +34,13 @@ class ListFollowingTweetsAPIView(ListAPIView):
     pagination_class = SmallResultsSetLimitOffsetPagination
 
     def get_queryset(self):
-        return super().get_queryset().filter(
-            author__followed_by=self.request.user,
-        ).order_by(
-            "-time_created",
+        return (
+            super()
+            .get_queryset()
+            .filter(
+                author__followed_by=self.request.user,
+            )
+            .order_by(
+                "-time_created",
+            )
         )

@@ -11,6 +11,7 @@ User = get_user_model()
 class MockRequest:
     "Mock request to be passed for methods that require a request."
 
+
 class UserAdminTests(TestCase):
     MOCK_PASSWORD = "3h1G1(Wf"
 
