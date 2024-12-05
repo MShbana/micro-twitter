@@ -34,10 +34,10 @@ A Django-based micro social media application with Django, DRF, PostgreSQL, Redi
     `docker compose exec server python manage.py migrate`
 
 ### Creating SuperUser:
-- To create a superuser, to access the Django Admin Dashboard: `docker compose exec server python manage.py createsuperuser`.
+- To create a superuser, to access the Django Admin Dashboard: `docker compose exec server python manage.py createsuperuser`
 
 ### Accessing the Django Admin Dashboard:
-- You can access the dashboard through: `http://localhost:8000/admin`.
+- You can access the dashboard through: `http://localhost:8000/admin`
 
 ### Running Tests:
 - To run tests:`docker compose exec server coverage run manage.py test`
