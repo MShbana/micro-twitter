@@ -1,4 +1,5 @@
 from io import BytesIO
+from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -23,7 +24,8 @@ class UserAPITests(APITestCase):
             password="securepassword",
         )
 
-    def test_register_user(self):
+    @mock.patch("micro_twitter.users.views.send_email")
+    def test_register_user(self, mock_send_email):
         url = reverse("users:user-register")
         data = {
             "username": "newuser",
@@ -34,8 +36,10 @@ class UserAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("username", response.data)
         self.assertEqual(response.data["username"], data["username"])
+        mock_send_email.apply_async.assert_called_once()
 
-    def test_register_user_with_profile_picture(self):
+    @mock.patch("micro_twitter.users.views.send_email")
+    def test_register_user_with_profile_picture(self, mock_send_email):
         picture_data = BytesIO()
         picture = Image.new("RGB", (100, 100), "white")
         picture.save(picture_data, format="png")
@@ -54,8 +58,10 @@ class UserAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("username", response.data)
         self.assertEqual(response.data["username"], data["username"])
+        mock_send_email.apply_async.assert_called_once()
 
-    def test_register_user_with_wrong_profile_picture_format(self):
+    @mock.patch("micro_twitter.users.views.send_email")
+    def test_register_user_with_wrong_profile_picture_format(self, mock_send_email):
         # https://stackoverflow.com/a/75754174
         picture_data = BytesIO()
         picture = Image.new("RGB", (100, 100), "white")
@@ -74,8 +80,10 @@ class UserAPITests(APITestCase):
         response = self.client.post(url, data, format="multipart")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("profile_picture", response.data)
+        mock_send_email.assert_not_called()
 
-    def test_register_user_duplicate_email(self):
+    @mock.patch("micro_twitter.users.views.send_email")
+    def test_register_user_duplicate_email(self, mock_send_email):
         url = reverse("users:user-register")
         data = {
             "username": "anotheruser",
@@ -85,6 +93,7 @@ class UserAPITests(APITestCase):
         response = self.client.post(url, data, format="multipart")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("email", response.data)
+        mock_send_email.assert_not_called()
 
     def test_login_user(self):
         url = reverse("users:user-login")
