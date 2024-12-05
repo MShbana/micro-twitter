@@ -1,5 +1,5 @@
-from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import send_mail
 
 
 def send_email(subject, message, recipient, from_email=settings.DEFAULT_FROM_EMAIL):

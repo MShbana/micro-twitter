@@ -1,10 +1,10 @@
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView
 
 from micro_twitter.common.pagintaion import SmallResultsSetLimitOffsetPagination
 from micro_twitter.timeline.models import Tweet
 from micro_twitter.timeline.serializers import TweetSerializer
-from drf_spectacular.utils import extend_schema
-from rest_framework import status
 
 
 @extend_schema(

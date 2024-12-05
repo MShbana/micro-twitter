@@ -1,6 +1,7 @@
-from micro_twitter.config.celery import app
 import logging
+
 from micro_twitter.common import utils
+from micro_twitter.config.celery import app
 
 logger = logging.getLogger("email_logger")
 

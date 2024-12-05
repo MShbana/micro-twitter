@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
-from environs import Env
 from django_guid.integrations import CeleryIntegration
+from environs import Env
 
 env = Env()
 env.read_env()
